@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@iconify-json/vscode-icons": "1.2.57",
-    "@slidev/cli": "52.16.0",
+    "@slidev/cli": "52.15.2",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
     "class-variance-authority": "0.7.1",
