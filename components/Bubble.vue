@@ -6,14 +6,14 @@ defineProps<{
   imageHeight?: string;
   imageGap?: string;
   name?: string;
-  position?: "left" | "right";
+  direction?: "left" | "right" | "top";
 }>();
 </script>
 
 <template>
   <div
     class="character-bubble"
-    :class="position ?? 'left'"
+    :class="direction ?? 'left'"
     :style="{ gap: imageGap ?? '1.2rem' }"
   >
     <img
@@ -43,6 +43,11 @@ defineProps<{
 
 .character-bubble.right {
   flex-direction: row-reverse;
+}
+
+.character-bubble.top {
+  flex-direction: column-reverse;
+  align-items: center;
 }
 
 .character {
@@ -77,6 +82,14 @@ defineProps<{
 .right .bubble::before {
   right: -26px;
   border-left-color: white;
+}
+
+.top .bubble::before {
+  bottom: -26px;
+  left: 50%;
+  top: auto;
+  transform: translateX(-50%);
+  border-top-color: white;
 }
 
 .name {

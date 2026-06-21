@@ -1,495 +1,325 @@
 ---
-title: Markdown Documentationのススメ
+title: Class Variance Authority
 colorSchema: light
 canvasWidth: 1280
 themeConfig:
   primary: "#3db680"
-background: /attachments/cat-minerva.webp
+background: /attachments/cover-bg.webp
 comark: true
 layout: cover
 # /index.html が必須の環境では /index.html#3 のような形式を許容させる
 routerMode: hash
+class: simple-cover
 ---
 
-# Slidevのレイアウトベーススライド
+# Class Variance Authority
 
 <span class="text-dimmed">
-2026/03/08   Tadashi Aikawa
+2026/06/21   Tadashi Aikawa
 </span>
 
 ---
-title: Agenda
-layout: chapter-divider
----
 
----
-title: Chapter1
-layout: chapter-divider
-activeChapter: 1
----
+# コンポーネントは『種類』『サイズ』『状態』をもつことが多い
 
----
-
-# 普通のスライド
-
-ここに説明を書いたり。
-
-- 箇条書きを
-- 書いたり
-
----
-
-# 最後に結論を表示
-
-ここには
-
-- 普通の説明を
-- 書いたりして
-- クリックすると
-
-<conclusion>
-
-結論が表示される
-
-</conclusion>
-
----
-
-# 最後に結論をオーバーレイで表示
-
-ここには
-
-- 普通の説明を
-- 書いたりして
-- いるけど
-
-スライド全体を
-
-- ぎっしり使っていて
-- 領域がないときでも
-
-<conclusion overlay>
-
-オーバーレイで中央に結論が表示される
-
-</conclusion>
-
----
-layout: fact
----
-
-# fact
-
-名言だったり、参考文献・グラフなどの事実を扱うときに使う。
-
-すべてが中央寄りになる。
-
-```ts
-const a = 1;
-const b = 2;
-// コードブロックには向かない。その場合は `layout: center` を使おう
+```tsx
+<Button variant="primary" size="sm" />
+<Button variant="danger" size="lg" />
+<Button variant="outline" disabled />
 ```
 
-<refer>
+<div class="flex justify-center items-center gap-4 mt-24">
+    <Button variant="primary" size="sm">primary sm</Button>
+    <Button variant="danger" size="lg">danger lg</Button>
+    <Button variant="outline" disabled>outline distabled</Button>
+</div>
 
-出典の明記
+---
 
-</refer>
+# 愚直に実装するとこうなる
+
+<<< @/components/Button.vue vue {1-|2-13|17-36}{lines:true,maxHeight:'90%'}
+
+---
+
+# メンテナンスできるように整理すると
+
+<<< @/components/Button2.vue vue {1-|18-28|31-45}{lines:true,maxHeight:'90%'}
 
 ---
 layout: center
 ---
 
-# center
+<Bubble image="./attachments/ts-chara.webp" imageHeight="280" imageGap="24px">
 
-中央にコンテンツを表示したいときに使う。
+でも、*定義が複数個所にあって*管理に気を遣いそうね...
 
-中央揃えではないので注意。
+</Bubble>
 
-```ts
-const a = 1;
-const b = 2;
-console.log(a + b);
-```
+<Bubble v-click image="./attachments/etokichi+1.webp" direction="right" imageHeight="220">
 
----
-layout: image
-image: /attachments/cat-minerva.webp
----
+安心して！<br/>
+**Class Variance Authority** というものがあるんだよ！
 
-# 画像を全面表示したい場合 (中心を軸に展開){.!text-white}
-
----
-layout: image
-image: /attachments/cat-minerva.webp
-backgroundSize: cover
-backgroundPosition: left top
----
-
-# 画像を全面表示したい場合 (起点を左上にあわせる){.!text-white}
-
----
-
-# 画像をトリミングしたい場合
-
-<div class="h-140 overflow-hidden">
-    <img src="./public/attachments/cat-minerva.webp" class="block" />
-</div>
-
----
-
-# 動画再生 `自動再生不要ならautoplayは外す`
-
-<SlidevVideo controls autoplay="once" autoreset="slide" class="mx-auto h-90%">
-    <source src="./public/attachments/colot.mp4" type="video/mp4" />
-</SlidevVideo>
-
----
-layout: image-left
-image: https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/colot.webp
-background-size: contain
----
-
-# 左半分を画像にしたい場合
-
-```yaml
-background-size: contain
-```
-
-を追加することで縦が収まるサイズに調整している。
-
----
-layout: image-left
-image: https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/colot.webp
-background-size: cover
-ratio: 25%
----
-
-# 左25%を画像にしたい場合
-
-```yaml
-ratio: 25%
-```
-
-で割合を指定できる。要独自コンポーネント。
-
-```yaml
-background-size: cover
-```
-
-`contain` ではなく `cover` にすることで最大表示。
-
----
-layout: image-right
-image: https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/obsidian-mini2.webp
-background-size: contain
----
-
-# 右半分を画像にしたい場合
-
-```yaml
-background-size: contain
-```
-
-を追加することで縦が収まるサイズに調整している。
-
----
-layout: image-right
-image: https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/obsidian-mini2.webp
-background-size: contain
-ratio: 25%
----
-
-# 右25%を画像にしたい場合
-
-```yaml
-ratio: 25%
-```
-
-で割合を指定できる。要独自コンポーネント。
-
----
-
-# 画像パスの注意点
-
-指定する対象によって正しくパスを入力しないと『ビルド時』『デプロイ時』に解決しなくなる。
-
-| 対象                                       | パスの開始              |
-| ------------------------------------------ | ----------------------- |
-| HTMLの `src` 属性                          | `./public/attachments/` |
-| Vueファイル内の `src` 属性 に渡されるprops | `./attachments/`        |
-| フロントマターのプロパティ                 | `/attachments/`         |
-| Markdownの画像リンク                       | `/attachments/`         |
-| CSSの `url`                                | `/attachments/`         |
-
-<refer>
-
-[📕Slidevの画像パスに対する注意 - Minerva](https://minerva.mamansoft.net/Notes/%F0%9F%93%95Slidev%E3%81%AE%E7%94%BB%E5%83%8F%E3%83%91%E3%82%B9%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8B%E6%B3%A8%E6%84%8F)
-
-</refer>
+</Bubble>
 
 ---
 layout: iframe-refer
-url: https://minerva.mamansoft.net/Notes/%E3%83%9F%E3%83%8D%E3%83%AB%E3%83%B4%E3%82%A1
-refer-text: Minerva
+url: https://cva.style/docs
+refer-text: cva
 scale: 1 # default
----
-
-# 全面iframe
-
----
-
-# Richリンクカード
-
-<div class="link-card-v2">
-  <div class="link-card-v2-site">
-    <img class="link-card-v2-site-icon" src="https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/favicon-64.png" />
-    <span class="link-card-v2-site-name">Minerva</span>
-  </div>
-  <div class="link-card-v2-title">
-    📘オブシディアの1日から紐解くObsidianの使い方
-  </div>
-  <div class="link-card-v2-content">平日の1日を追いながら、Obsidianでのデイリーノート運用、SilhouetteやVarious Complementsなど自作プラグインを使ったタスク管理・議事録・ドキュメント連携の実例を、ミネルヴァとオブシディアが紹介します。</div>
-  <img class="link-card-v2-image" src="https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/%F0%9F%93%98Articles/attachments/2025-12-25.webp" />
-  <a data-href="📘オブシディアの1日から紐解くObsidianの使い方" class="internal-link"></a>
-</div>
-
----
-layout: two-cols-header
----
-
-# ヘッダの下を左右に分割
-
-::left::
-
-- 左側
-
-::right::
-
-- 右側
-
----
-layout: two-cols-header-ratio
-columns: "3:7"
----
-
-# ヘッダの下を左右に分割 (比率指定)
-
-::left::
-
-- 左側 (30%)
-
-::right::
-
-- 右側 (70%)
-
----
-layout: two-cols
----
-
-# ヘッダ含めて左右に分割(左側のタイトル)
-
-- 左側
-
-::right::
-
-# ヘッダ含めて左右に分割(右側のタイトル)
-
-- 右側
-
----
-title: Chapter2
-layout: chapter-divider
-activeChapter: 2
 ---
 
 ---
 layout: fact
 ---
 
-# コードブロックの表現は多い
+# CVAとは
+
+コンポーネントに対する見た目の定義(class, style)を<br/>
+*宣言的・型安全*に行える小さなユーティリティ
+
+v0.7.1
 
 ---
 
-# 普通のコードブロック
+# 先ほどのコード
 
-```lua
-return {
-  -- 'tadashi-aikawa/slidev-preview.nvim',
-  dir = "~/git/github.com/tadashi-aikawa/slidev-preview.nvim",
-  cmd = "SlidevPreviewStart",
-  opts = {},
-}
-```
+<<< @/components/Button2.vue vue {1-}{lines:true,maxHeight:'90%'}
 
 ---
 
-# ファイル名・行番号つき
+# CVAを使うとこうなる
 
-```lua [slidev-preview.lua ~i-vscode-icons:file-type-lua~] {*}{lines: true}
-return {
-  -- 'tadashi-aikawa/slidev-preview.nvim',
-  dir = "~/git/github.com/tadashi-aikawa/slidev-preview.nvim",
-  cmd = "SlidevPreviewStart",
-  opts = {},
-}
-```
-
-※ ヘッドマターで `lineNumbers: true` を設定すれば `lines: true` は不要
+<<< @/components/CVAButton.vue vue {1-|4-34|5|7-26|27-32|36,37|39-}{lines:true,maxHeight:'90%'}
 
 ---
 
-# コードグループ
+<div style="--slidev-code-font-size: 0.23em; width: 560px;">
 
-::code-group
+<<< @/components/CVAButton.vue vue {1-}{lines:true,maxHeight:'90%'}
 
-```sh [npm]
-npm i @slidev/cli
+</div>
+
+<spotlight v-click.fade-in class="left-20 top-14 w-128 h-110" />
+<Bubble v-click.fade-in image="./attachments/ts-chara.webp" imageHeight="280" imageGap="16px" class="left-156 top-14 absolute">
+ここの部分は<br/>
+Vueファイルの中に<br/>
+書かなくてもよくては？
+</Bubble>
+
+<div v-click.fade-in class="left-192 top-102 absolute">
+
 ```
-
-```sh [yarn]
-yarn add @slidev/cli
+📁components
+└──📁button
+    ├── index.ts
+    └── Button.vue
 ```
-
-```sh [pnpm]
-pnpm add @slidev/cli
-```
-
-::
-
----
-
-# 高度なコードブロック
-
-`{*}{maxHeight:}` で指定する。`%` が良さげ。
-
-```vue [MethodBadge.vue] {*}{maxHeight:'80%', lines: true}
-<script setup lang="ts">
-import type { PrimitiveProps } from "reka-ui";
-import type { HTMLAttributes } from "vue";
-import type { BadgeVariants } from ".";
-import { reactiveOmit } from "@vueuse/core";
-import { Primitive } from "reka-ui";
-import { cn } from "@/lib/utils";
-import { badgeVariants } from ".";
-
-const props = defineProps<
-  PrimitiveProps & {
-    variant?: BadgeVariants["variant"];
-    class?: HTMLAttributes["class"];
-  }
->();
-
-const delegatedProps = reactiveOmit(props, "class");
-</script>
-
-<template>
-  <Primitive
-    data-slot="badge"
-    :class="cn(badgeVariants({ variant }), props.class)"
-    v-bind="delegatedProps"
-  >
-    <slot />
-  </Primitive>
-</template>
-```
-
----
-
-# 高度なコードブロック
-
-ハイライト指定は `{1,10}` や `{5-7}` のように。`|` 区切りでアニメーション。
-
-```vue [MethodBadge.vue] {1,18|2-8|10-15|17}{maxHeight:'80%', lines: true}
-<script setup lang="ts">
-import type { PrimitiveProps } from "reka-ui";
-import type { HTMLAttributes } from "vue";
-import type { BadgeVariants } from ".";
-import { reactiveOmit } from "@vueuse/core";
-import { Primitive } from "reka-ui";
-import { cn } from "@/lib/utils";
-import { badgeVariants } from ".";
-
-const props = defineProps<
-  PrimitiveProps & {
-    variant?: BadgeVariants["variant"];
-    class?: HTMLAttributes["class"];
-  }
->();
-
-const delegatedProps = reactiveOmit(props, "class");
-</script>
-
-<template>
-  <Primitive
-    data-slot="badge"
-    :class="cn(badgeVariants({ variant }), props.class)"
-    v-bind="delegatedProps"
-  >
-    <slot />
-  </Primitive>
-</template>
-```
-
----
-
-# 高度なコードブロック
-
-アニメーション表示 `md magic-move`
-
-````md magic-move {lines: true}
-```ts
-const x = 1;
-```
-
-```ts
-const x = 1;
-const y = 1;
-```
-
-```ts
-const x = -1;
-```
-````
-
----
-title: Chapter3
-layout: chapter-divider
-activeChapter: 3
----
-
----
-
-# アニメーション
-
-<div v-click.fade-in>
-
-内部の要素をフェードイン
 
 </div>
 
 ---
 
-# スポットライト
+<div class="grid grid-cols-[5fr_4fr] gap-4 text-3xl">
 
-クリックするとスポットライトがあたる。
+<div>
 
-<div v-click.fade-in class="spotlight left-32 top-96 w-128 h-64"></div>
+`components/button/index.ts`
+
+<div style="--slidev-code-font-size: 0.36em;">
+
+<<< @/components/button/index.ts ts {1-}
+
+</div>
+
+</div>
+
+<div>
+
+`components/button/Button.vue`
+
+<div style="--slidev-code-font-size: 0.36em;">
+
+<<< @/components/button/Button.vue vue {1-}
+
+</div>
+
+</div>
+
+</div>
+
+<div v-click.fade-in="[1, 2]">
+
+<spotlight v-click.fade-in class="left-16 top-12 w-160 h-168" />
+<Bubble v-after.fade-in="[1, 2]" direction="top" image="./attachments/ts-chara.webp" imageHeight="280" imageGap="16px" class="left-180 top-14 absolute">
+見た目を変えたくなったら<br/>
+こちらを変更します
+</Bubble>
+
+</div>
+
+<div v-click.fade-in="2">
+
+<spotlight v-click.fade-in class="left-176 top-12 w-128 h-94" />
+<Bubble direction="top" image="./attachments/etokichi+1.webp" imageHeight="280" imageGap="16px" class="left-64 top-14 absolute">
+処理を変えたくなったら<br/>
+こっちを変更だね！
+</Bubble>
+
+</div>
 
 ---
-title: Chapter4
-layout: chapter-divider
-activeChapter: 4
----
+
+# CVAが向かないケース
+
+- コンポーネントではないもの
+  - `variant` `size` などのpropsにはならないので
+- propsが少ないコンポーネント
+  - `cva()` を使った方がかえって複雑になる
 
 ---
+layout: fact
+---
 
-# 改訂履歴
+# TIPS
 
-右上に改訂履歴が表示される。
+---
 
-<revision-histories :revisions="[
-  {date: '2026-05-26', content: '初版'},
-  {date: '2026-05-27', content: 'ちょっと修正'},
-  {date: '2026-05-30', content: 'ガッツリ修正しました'}
-]" />
+# class名の補完
+
+[Installation | cva > IntelliSense](https://cva.style/docs/getting-started/installation#intellisense) を参照。
+
+<space />
+
+`私のNeovimの例`
+
+```lua [nvim/after/lsp/tailwindcss.lua ~i-vscode-icons:file-type-lua~]
+return {
+  workspace_required = true,
+  settings = {
+    tailwindCSS = {
+      classFunctions = { "cva", "cx", "h" },
+    },
+  },
+}
+```
+
+---
+
+# class順の自動ソート
+
+Prettierを使っているなら [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) を使う。
+
+<space />
+
+`私の設定例`
+
+```json [.prettierrc.json]
+{
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["cva", "cn"]
+}
+```
+
+---
+
+# class順の自動ソート
+
+*配列表記では機能しない*ので注意。
+
+```typescript
+const button = cva(["rounded"], {
+  variants: {
+    intent: {
+      // ❌ ソートされない
+      primary: ["bg-blue-500", "text-red", "flex"],
+      // ✅ ソートされる
+      secondary: "bg-blue-500 text-red flex",
+    },
+```
+
+---
+
+# 必須プロパティ型の表現
+
+```typescript
+type RequireNonNullable<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: Exclude<T[P], null | undefined>;
+};
+```
+
+```typescript
+// variantだけ必須指定にした例. sizeも必須にするなら "variant" | "size" を指定する
+export type ButtonVariants = RequireNonNullable<
+  VariantProps<typeof buttonVariants>,
+  "variant"
+>;
+
+declare type Variant = ButtonVariants["variant"];
+//           ^ "primary" | "danger" | "outline"
+declare type Size = ButtonVariants["size"];
+//           ^ "sm" | "md" | "lg" | null | undefined
+```
+
+---
+
+# compoundVariants `組み合わせの定義`
+
+```ts {*|4-}{lines:true,maxHeight:'90%'}
+import { cva, type VariantProps } from "class-variance-authority";
+
+const button = cva(["rounded"], {
+  variants: {
+    intent: { primary: ["bg-blue-500"], secondary: ["bg-gray-200"] },
+    disabled: { false: null, true: ["cursor-not-allowed"] },
+  },
+  // 特定の属性値が組み合わさったときだけ付与されるクラス
+  compoundVariants: [
+    { intent: "primary", disabled: true, class: "hover:bg-blue-600" },
+    { intent: "secondary", disabled: false, class: "hover:bg-gray-100" },
+  ],
+});
+
+console.log(button({ intent: "primary", disabled: false }));
+// rounded bg-blue-500
+console.log(button({ intent: "primary", disabled: true }));
+// rounded bg-blue-500 cursor-not-allowed hover:bg-blue-600
+console.log(button({ intent: "secondary", disabled: false }));
+// rounded bg-gray-200 cursor-not-allowed hover:bg-gray-100
+```
+
+<refer>
+
+[Variants | cva](https://cva.style/docs/getting-started/variants#compound-variants)
+
+</refer>
+
+---
+
+# Tailwind CSS クラスの慎重な競合解消
+
+[tailwind-merge](https://github.com/dcastil/tailwind-merge)を使う。 `基本的には使わなくても大抵は動く`
+
+```ts
+import { cva, type VariantProps } from "class-variance-authority";
+import { twMerge } from "tailwind-merge";
+
+const buttonVariants = cva(/** 中略 */);
+type ButtonVariants = VariantProps<typeof buttonVariants>;
+
+export const button = (variants: ButtonVariants) =>
+  twMerge(buttonVariants(variants));
+```
+
+<Bubble image="./attachments/ts-chara.webp" imageHeight="220" imageGap="24px">
+
+Vueファイルで `buttonVariants` を使うときにwrapする方法もアリね。
+
+</Bubble>
+
+<refer>
+
+[Installation | cva > Handling Style Conflicts](https://cva.style/docs/getting-started/installation#handling-style-conflicts)
+
+</refer>

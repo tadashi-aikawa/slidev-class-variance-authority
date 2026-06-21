@@ -35,6 +35,12 @@
   color: var(--color-foreground);
 }
 
+.simple-cover {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
+    url("/attachments/cover-bg.webp") !important;
+}
+
 /*
  * ╭─────────────────────────────────────────────────────────╮
  * │                          段落                           │
@@ -418,16 +424,4 @@
 }
 .refer a {
   color: inherit;
-}
-
-/*
- * ╭─────────────────────────────────────────────────────────╮
- * │                         その他                          │
- * ╰─────────────────────────────────────────────────────────╯
-*/
-
-.spotlight {
-  position: absolute;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65);
-  pointer-events: none;
 }
