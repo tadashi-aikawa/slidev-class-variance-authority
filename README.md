@@ -35,3 +35,7 @@ Neovimを使っているなら [slidev-preview.nvim](https://github.com/tadashi-
 ## ベースとして新しいスライドをつくる
 
 GitHubの `Use this template` から。
+
+## デプロイ先
+
+https://tadashi-aikawa.github.io/slidev-class-variance-authority/
