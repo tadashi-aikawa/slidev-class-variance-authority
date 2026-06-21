@@ -31,7 +31,7 @@ class: simple-cover
 <div class="flex justify-center items-center gap-4 mt-24">
     <Button variant="primary" size="sm">primary sm</Button>
     <Button variant="danger" size="lg">danger lg</Button>
-    <Button variant="outline" disabled>outline distabled</Button>
+    <Button variant="outline" disabled>outline disabled</Button>
 </div>
 
 ---
@@ -50,13 +50,13 @@ class: simple-cover
 layout: center
 ---
 
-<Bubble image="./attachments/ts-chara.webp" imageHeight="280" imageGap="24px">
+<Bubble image="./attachments/ts-chara.webp" imageHeight="280" imageGap="24px" direction="right">
 
-でも、*定義が複数個所にあって*管理に気を遣いそうね...
+でも、*定義が複数箇所にあって*管理に気を遣いそうね...
 
 </Bubble>
 
-<Bubble v-click image="./attachments/etokichi+1.webp" direction="right" imageHeight="220">
+<Bubble v-click image="./attachments/etokichi+1.webp" imageHeight="220" direction="left">
 
 安心して！<br/>
 **Class Variance Authority** というものがあるんだよ！
@@ -102,10 +102,10 @@ v0.7.1
 </div>
 
 <spotlight v-click.fade-in class="left-20 top-14 w-128 h-110" />
-<Bubble v-click.fade-in image="./attachments/ts-chara.webp" imageHeight="280" imageGap="16px" class="left-156 top-14 absolute">
+<Bubble v-click.fade-in image="./attachments/ts-chara.webp" imageHeight="280" imageGap="16px" class="left-156 top-14 absolute" direction="right">
 ここの部分は<br/>
 Vueファイルの中に<br/>
-書かなくてもよくては？
+書かなくてもよいのでは？
 </Bubble>
 
 <div v-click.fade-in class="left-192 top-102 absolute">
@@ -171,6 +171,39 @@ Vueファイルの中に<br/>
 
 ---
 
+# compoundVariants `組み合わせの定義`
+
+```ts {*|4-}{lines:true,maxHeight:'90%'}
+import { cva, type VariantProps } from "class-variance-authority";
+
+const button = cva(["rounded"], {
+  variants: {
+    intent: { primary: ["bg-blue-500"], secondary: ["bg-gray-200"] },
+    disabled: { false: null, true: ["cursor-not-allowed"] },
+  },
+  // 特定の属性値が組み合わさったときだけ付与されるクラス
+  compoundVariants: [
+    { intent: "primary", disabled: true, class: "hover:bg-blue-600" },
+    { intent: "secondary", disabled: false, class: "hover:bg-gray-100" },
+  ],
+});
+
+console.log(button({ intent: "primary", disabled: false }));
+// rounded bg-blue-500
+console.log(button({ intent: "primary", disabled: true }));
+// rounded bg-blue-500 cursor-not-allowed hover:bg-blue-600
+console.log(button({ intent: "secondary", disabled: false }));
+// rounded bg-gray-200 hover:bg-gray-100
+```
+
+<refer>
+
+[Variants | cva](https://cva.style/docs/getting-started/variants#compound-variants)
+
+</refer>
+
+---
+
 # CVAが向かないケース
 
 - コンポーネントではないもの
@@ -179,10 +212,20 @@ Vueファイルの中に<br/>
   - `cva()` を使った方がかえって複雑になる
 
 ---
+
+# まとめ
+
+**『CVA』は**
+
+- コンポーネントの見た目を _宣言的・型安全_ に定義できる
+- その定義を _`.ts` ファイルに切り出せる_
+- `compoundVariants` で複雑な組み合わせ条件にも対応できる
+
+---
 layout: fact
 ---
 
-# TIPS
+# APPENDIX
 
 ---
 
@@ -239,6 +282,12 @@ const button = cva(["rounded"], {
     },
 ```
 
+<Bubble direction="left" image="./attachments/ts-chara.webp" imageHeight="220" imageGap="24px">
+
+[要望](https://github.com/tailwindlabs/tailwindcss/discussions/15993)は挙がっているみたいね。
+
+</Bubble>
+
 ---
 
 # 必須プロパティ型の表現
@@ -256,44 +305,11 @@ export type ButtonVariants = RequireNonNullable<
   "variant"
 >;
 
-declare type Variant = ButtonVariants["variant"];
-//           ^ "primary" | "danger" | "outline"
-declare type Size = ButtonVariants["size"];
-//           ^ "sm" | "md" | "lg" | null | undefined
+type Variant = ButtonVariants["variant"];
+//   ^ "primary" | "danger" | "outline"
+type Size = ButtonVariants["size"];
+//   ^ "sm" | "md" | "lg" | null | undefined
 ```
-
----
-
-# compoundVariants `組み合わせの定義`
-
-```ts {*|4-}{lines:true,maxHeight:'90%'}
-import { cva, type VariantProps } from "class-variance-authority";
-
-const button = cva(["rounded"], {
-  variants: {
-    intent: { primary: ["bg-blue-500"], secondary: ["bg-gray-200"] },
-    disabled: { false: null, true: ["cursor-not-allowed"] },
-  },
-  // 特定の属性値が組み合わさったときだけ付与されるクラス
-  compoundVariants: [
-    { intent: "primary", disabled: true, class: "hover:bg-blue-600" },
-    { intent: "secondary", disabled: false, class: "hover:bg-gray-100" },
-  ],
-});
-
-console.log(button({ intent: "primary", disabled: false }));
-// rounded bg-blue-500
-console.log(button({ intent: "primary", disabled: true }));
-// rounded bg-blue-500 cursor-not-allowed hover:bg-blue-600
-console.log(button({ intent: "secondary", disabled: false }));
-// rounded bg-gray-200 cursor-not-allowed hover:bg-gray-100
-```
-
-<refer>
-
-[Variants | cva](https://cva.style/docs/getting-started/variants#compound-variants)
-
-</refer>
 
 ---
 
@@ -312,7 +328,7 @@ export const button = (variants: ButtonVariants) =>
   twMerge(buttonVariants(variants));
 ```
 
-<Bubble image="./attachments/ts-chara.webp" imageHeight="220" imageGap="24px">
+<Bubble direction="left" image="./attachments/ts-chara.webp" imageHeight="220" imageGap="24px">
 
 Vueファイルで `buttonVariants` を使うときにwrapする方法もアリね。
 
@@ -323,3 +339,22 @@ Vueファイルで `buttonVariants` を使うときにwrapする方法もアリ�
 [Installation | cva > Handling Style Conflicts](https://cva.style/docs/getting-started/installation#handling-style-conflicts)
 
 </refer>
+
+---
+
+# 参考
+
+<div class="link-card-v2">
+  <div class="link-card-v2-site">
+    <img class="link-card-v2-site-icon" src="https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/favicon-32.png" />
+    <span class="link-card-v2-site-name">Minerva</span>
+  </div>
+  <div class="link-card-v2-title">
+    📕Class Variance Authorityを使ったVueのコンポーネント設計 - Minerva
+  </div>
+    <div class="link-card-v2-content">
+    class-variance-authorityとTailwind CSSを用いたVue3コンポーネント設計で、variantの必須制御や複数variantの型定義パターンを整理した記録である。 ... 
+  </div>
+  <img class="link-card-v2-image" src="https://publish-01.obsidian.md/access/35d05cd1bf5cc500e11cc8ba57daaf88/Notes/attachments/2026-01-19-06-27-00.webp" />
+  <a href="https://minerva.mamansoft.net/Notes/%F0%9F%93%95Class%20Variance%20Authority%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9FVue%E3%81%AE%E3%82%B3%E3%83%B3%E3%83%9D%E3%83%BC%E3%83%8D%E3%83%B3%E3%83%88%E8%A8%AD%E8%A8%88"></a>
+</div>

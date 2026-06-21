@@ -1,4 +1,3 @@
-<!-- components/CharacterBubble.vue -->
 <script setup lang="ts">
 defineProps<{
   image: string;
@@ -6,14 +5,14 @@ defineProps<{
   imageHeight?: string;
   imageGap?: string;
   name?: string;
-  direction?: "left" | "right" | "top";
+  direction: "left" | "right" | "top";
 }>();
 </script>
 
 <template>
   <div
     class="character-bubble"
-    :class="direction ?? 'left'"
+    :class="direction"
     :style="{ gap: imageGap ?? '1.2rem' }"
   >
     <img
@@ -41,8 +40,12 @@ defineProps<{
   margin: 2rem 0;
 }
 
-.character-bubble.right {
+.character-bubble.left {
   flex-direction: row-reverse;
+}
+
+.character-bubble.right {
+  flex-direction: row;
 }
 
 .character-bubble.top {
@@ -75,13 +78,13 @@ defineProps<{
 }
 
 .left .bubble::before {
-  left: -26px;
-  border-right-color: white;
+  right: -26px;
+  border-left-color: white;
 }
 
 .right .bubble::before {
-  right: -26px;
-  border-left-color: white;
+  left: -26px;
+  border-right-color: white;
 }
 
 .top .bubble::before {
